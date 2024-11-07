@@ -1,22 +1,31 @@
 from rest_framework import serializers
-from .models import CustomUser
+from users.models import CustomUser
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from tasks.models import Review
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'roles', 'password']
-
+        fields = ['username', 'first_name', 'last_name', 'email', 'password']
+    
     def create(self, validated_data):
-        if 'roles' not in validated_data:
-            validated_data['roles'] = ['user']
+        
         if len(validated_data['password']) < 6:
             raise serializers.ValidationError('the password should be at least 6 characters long')
-
-        user = CustomUser(**validated_data)
+        
+        if 'email' not in validated_data:
+            raise serializers.ValidationError('Please enter your email!')
+        
+        user = CustomUser(
+            username=validated_data['username'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            email=validated_data['email'],
+            role='user',
+        )
+        
         user.set_password(validated_data['password'])
         user.save()
         return user
@@ -41,3 +50,15 @@ class UserLoginSerializer(serializers.Serializer):
                 raise serializers.ValidationError("Invalid username or password")
         else:
             raise serializers.ValidationError("Must include both username and password")
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    reviews = serializers.SerializerMethodField()
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'first_name', 'last_name', 'email', 'date_joined', 'reviews')
+
+    def get_reviews(self, obj):
+        return obj.reviews.values('id', 'content', 'rating', 'created_at')
+
+
