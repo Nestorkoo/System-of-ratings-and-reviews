@@ -11,19 +11,21 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = ['username', 'first_name', 'last_name', 'email', 'password']
     
     def create(self, validated_data):
-        
         if len(validated_data['password']) < 6:
             raise serializers.ValidationError('the password should be at least 6 characters long')
         
         if 'email' not in validated_data:
             raise serializers.ValidationError('Please enter your email!')
+        if 'first_name' not in validated_data:
+            raise serializers.ValidationError('Please enter your first name')
+        if 'last_name' not in validated_data:
+            raise serializers.ValidationError('Please enter your last name')
         
         user = CustomUser(
             username=validated_data['username'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
             email=validated_data['email'],
-            role='user',
         )
         
         user.set_password(validated_data['password'])
@@ -60,5 +62,3 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def get_reviews(self, obj):
         return obj.reviews.values('id', 'content', 'rating', 'created_at')
-
-
