@@ -3,7 +3,7 @@
 from pathlib import Path
 from decouple import config, RepositoryEnv, Config
 
-env_path = 'dev.env'
+env_path = '../dev.env'
 config = Config(RepositoryEnv(env_path))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
