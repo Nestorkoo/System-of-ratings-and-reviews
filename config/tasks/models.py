@@ -7,6 +7,7 @@ class Review(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='reviews')
     username = models.CharField(max_length=150, editable=False, null=True, blank=True)
     content = models.TextField()
+    image_url = models.URLField(null=True, blank=True)
     rating = models.PositiveSmallIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)

@@ -4,7 +4,7 @@ from tasks.models import Review
 class ReviewCreateSerializator(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = 'username','content', 'rating'
+        fields = 'username','content', 'image_url', 'rating'
 
     def create(self, validated_data):
         user = self.context['request'].user
@@ -12,10 +12,10 @@ class ReviewCreateSerializator(serializers.ModelSerializer):
             raise serializers.ValidationError('Please enter a short description about your review!')
         if validated_data['rating'] > 10:
             raise serializers.ValidationError('Please enter a number from 1 to 10!')
-        
         review = Review(
             user=user,
             content=validated_data['content'],
+            image_url=validated_data['image_url'],
             rating=validated_data['rating'],
 
         )
@@ -25,6 +25,4 @@ class ReviewCreateSerializator(serializers.ModelSerializer):
 class ReviewViewSerializator(serializers.ModelSerializer):
     class Meta:
         model=Review
-        fields='username', 'content', 'rating', 'created_at'
-    
-    
+        fields='username', 'content','image_url', 'rating', 'created_at'
