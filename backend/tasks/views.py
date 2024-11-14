@@ -39,3 +39,24 @@ class ReviewDeleteView(generics.DestroyAPIView):
         review.delete()
         
         return Response(f'{review} deleted successful', status=status.HTTP_200_OK)
+
+class StatisticReviewView(generics.ListAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewViewSerializator
+
+    def get(self, request, *args, **kwargs):
+        company_name = self.kwargs.get('company')
+        queryset = self.queryset
+        
+        if company_name:
+            queryset = queryset.filter(manufacturer_company=company_name)
+        
+        serializer = self.get_serializer(queryset, many=True)
+        
+        return Response({
+            "message": f'Reviews with company name {company_name}:',
+            'reviews': serializer.data
+        }
+        )
+
+        
