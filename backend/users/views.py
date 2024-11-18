@@ -10,10 +10,9 @@ class UserRegistrationView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)  
+        serializer.is_valid(raise_exception=True)
         user = serializer.save()
         return Response(f'Account {user} created', status=status.HTTP_201_CREATED)
-
 class UserLoginView(APIView):
     def post(self, request):
         serializer = UserLoginSerializer(data=request.data)
@@ -38,5 +37,3 @@ class UserProfileView(generics.ListAPIView):
                 return Response("No profile found", status=status.HTTP_404_NOT_FOUND)
         else:
             return Response('Please enter the username of the user', status=status.HTTP_400_BAD_REQUEST)
-        
-    
