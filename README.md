@@ -5,7 +5,6 @@ This is a Django-based project designed to manage ratings and reviews for differ
 ## Features
 
 - **User Authentication:** Users can sign up, log in, and manage their profiles.
-- **Rating System:** Users can rate items (e.g., products, services) on a scale (e.g., 1 to 5 stars).
 - **Review System:** Users can leave detailed reviews with text feedback.
 - **Admin Panel:** Admins can manage ratings, reviews, and users through the Django admin interface.
 - **JWT Authentication:** API endpoints are protected by JWT tokens for secure access.
