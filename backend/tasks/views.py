@@ -28,6 +28,7 @@ class ReviewViewList(generics.ListAPIView):
 class ReviewDeleteView(generics.DestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewViewSerializator
+    permission_classes = [permissions.IsAuthenticated]
 
     def delete(self, request, *args, **kwargs):
         review = self.get_object()

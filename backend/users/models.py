@@ -4,9 +4,10 @@ from django.contrib.postgres.fields import ArrayField
 # from tasks.models import Review
 
 class CustomUser(AbstractUser):
-    roles_choise = [
+    ROLE_CHOICES = (
+        ('admin', 'Admin'),
         ('user', 'User'),
-        ('admin', "Admin"),
-    ]
-    roles = models.CharField(max_length=12, default='user', choices=roles_choise)
+        ('moderator', 'Moderator')
+    )
+    roles = models.CharField(max_length=12, default='user', choices=ROLE_CHOICES)
 
