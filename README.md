@@ -24,7 +24,7 @@ To run this project locally or in a Docker container, follow these steps:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/system-of-ratings-and-reviews.git
+git clone https://github.com/Nestorkoo/system-of-ratings-and-reviews.git
 cd system-of-ratings-and-reviews
 ```
 ### 2. Set up the Environment
